@@ -1,24 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { AiOutlineMenu } from "react-icons/ai";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu";
 
 const Header = () => {
-  const [menuIsOpen, setMenuIsOpen] = React.useState(false);
-
   const { status, data } = useSession();
 
   const handleLoginClick = () => signIn();
+  const handleLogoutClick = () => signOut();;
 
-  const handleLogoutClick = () => {
-    setMenuIsOpen(false);
-    signOut();
-  };
+  const [image, setImage] = useState<string>();
 
-  const handleMenuClick = () => setMenuIsOpen(!menuIsOpen);
+  useEffect(() => {
+    setImage(data?.user?.image!)
+  }, [data?.user?.image])
+
 
   return (
     <div className="container mx-auto p-5 py-0 h-[93px] flex justify-between items-center lg:border-b lg:border-customGray-light">
@@ -28,31 +29,46 @@ const Header = () => {
         </div>
       </Link>
 
-      {status === "unauthenticated" && (
-        <button className="text-customPurple text-sm font-semibold" onClick={handleLoginClick}>
-          Login
-        </button>
-      )}
 
-      {status === "authenticated" && data.user && (
-        <div className="flex items-center gap-3 border-customGray-light border border-solid rounded-full p-2 px-3 relative">
-          <AiOutlineMenu size={16} onClick={handleMenuClick} className="cursor-pointer" />
 
-          <Image height={35} width={35} src={data.user.image!} alt={data.user.name!} className="rounded-full shadow-md" />
+      <div className="flex gap-1 items-center rounded-full py-1 px-2 relative">
+        <NavigationMenu >
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className=" text-customPurple hover:text-customPurple active:text-customPurple">
+                Menu
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className=" fle text-customPurple">
+                {status === "authenticated" && data.user && (
+                  <ul className="p-3 flex flex-col text-center gap-3">
+                    <Link href="/my-trips" legacyBehavior passHref>
+                      <NavigationMenuLink>
+                        Viagens
+                      </NavigationMenuLink>
+                    </Link>
+                    <NavigationMenuLink className="cursor-pointer" onClick={handleLogoutClick}>Logout</NavigationMenuLink>
+                  </ul>
+                )}
+                {status === "unauthenticated" && (
+                  <ul className="p-3 flex flex-col text-center gap-3">
+                    <NavigationMenuLink className="cursor-pointer" onClick={handleLoginClick}>
+                      Entrar
+                    </NavigationMenuLink>
+                  </ul>
+                )}
 
-          {menuIsOpen && (
-            <div className="z-50 absolute top-14 left-0 w-full h-[100px] bg-white rounded-lg shadow-md flex flex-col justify-center items-center">
-              <Link href="/my-trips" onClick={() => setMenuIsOpen(false)}>
-                <button className="text-customPurple pb-2 border-b border-customGray-light border-solid text-sm font-semibold">Minhas Viagens</button>
-              </Link>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        {status === "authenticated" && (
+                  <Avatar className="w-[1.5rem] h-[1.5rem]">
+                    {data.user?.image && <AvatarImage src={image} alt={data.user.name!} />}
+                    <AvatarFallback>{data.user?.name?.slice(0, 1)}</AvatarFallback>
+                  </Avatar>
+                )}
 
-              <button className="text-customPurple pt-2 text-sm font-semibold" onClick={handleLogoutClick}>
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+      </div>
     </div>
   );
 };
