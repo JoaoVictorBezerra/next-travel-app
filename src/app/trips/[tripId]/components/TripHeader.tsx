@@ -84,16 +84,16 @@ const TripHeader = ({ trip }: TripHeaderProps) => {
       </div>
 
       {/* TÍTULO E INFORMAÇÕES */}
-      <div className="flex flex-col p-5 lg:order-1 lg:p-0 lg:mb-10">
-        <h1 className="font-semibold text-xl lg:text-3xl text-primaryDarker">{trip.name}</h1>
+      <div className="flex flex-col lg:order-1 lg:p-0 lg:mb-10">
+        <h1 className="font-semibold text-xl lg:text-3xl text-customPurple-dark">{trip.name}</h1>
 
         <div className="flex items-center gap-1 my-1">
           <ReactCountryFlag countryCode={trip.countryCode} svg />
-          <p className="text-xs lg:text-base text-grayPrimary underline">{trip.location}</p>
+          <p className="text-xs lg:text-base text-customGray underline">{trip.location}</p>
         </div>
 
-        <p className="text-xs text-grayPrimary lg:hidden">
-          <span className="text-primary font-medium">R${trip.pricePerDay.toString()}</span> por dia
+        <p className="text-xs text-customGray lg:hidden">
+          <span className="text-customPurple font-medium">R${trip.pricePerDay.toString()}</span> por dia
         </p>
       </div>
     </div>
