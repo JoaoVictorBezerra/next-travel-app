@@ -8,7 +8,7 @@ interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
 function Button({ className, variant = "primary", ...props }: ButtonProps) {
   const variantClasses = {
     primary: "bg-customPurple text-white hover:bg-customPurple-dark",
-    outlined: "bg-transparent border-2 border-primary text-primary",
+    outlined: "bg-transparent border-2 border-customPurple text-customPurple",
     danger: "text-red-500 border-red-500 border hover:bg-red-600 bg-transparent hover:text-white",
   };
 

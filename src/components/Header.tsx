@@ -29,7 +29,7 @@ const Header = () => {
       </Link>
 
       {status === "unauthenticated" && (
-        <button className="text-primary text-sm font-semibold" onClick={handleLoginClick}>
+        <button className="text-customPurple text-sm font-semibold" onClick={handleLoginClick}>
           Login
         </button>
       )}
@@ -43,10 +43,10 @@ const Header = () => {
           {menuIsOpen && (
             <div className="z-50 absolute top-14 left-0 w-full h-[100px] bg-white rounded-lg shadow-md flex flex-col justify-center items-center">
               <Link href="/my-trips" onClick={() => setMenuIsOpen(false)}>
-                <button className="text-primary pb-2 border-b border-customGray-light border-solid text-sm font-semibold">Minhas Viagens</button>
+                <button className="text-customPurple pb-2 border-b border-customGray-light border-solid text-sm font-semibold">Minhas Viagens</button>
               </Link>
 
-              <button className="text-primary pt-2 text-sm font-semibold" onClick={handleLogoutClick}>
+              <button className="text-customPurple pt-2 text-sm font-semibold" onClick={handleLogoutClick}>
                 Logout
               </button>
             </div>
